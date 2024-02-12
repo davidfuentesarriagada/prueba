@@ -1,0 +1,11 @@
+<?php
+copy('https://getcomposer.org/installer', 'composer-setup.php');
+$signature = file_get_contents('https://composer.github.io/installer.sig');
+if (hash('SHA384', 'composer-setup.php') === $signature) {
+    echo 'Instalador verificado.' . PHP_EOL;
+    include 'composer-setup.php';
+} else {
+    echo 'Instalador corrupto.' . PHP_EOL;
+    unlink('composer-setup.php');
+}
+?>
