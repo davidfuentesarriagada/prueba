@@ -243,8 +243,8 @@ session_start();
                         <div id="collapseFour" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <h6 class="collapse-header">Listado de Mantenciones:</h6>
-                                <a class="collapse-item" href="mantenciones.php">Mantenciones Fisícas</a>
-                                <a class="collapse-item" href="mantenciones.php">mantenciones Logicas</a>
+                                <a class="collapse-item" href="mantenciones.php">Mantenciones Logicas</a>
+                                <a class="collapse-item" href="mantenciones2.php">mantenciones Fisícas</a>
                             </div>
                         </div>
                     </li>';
@@ -448,8 +448,8 @@ session_start();
                 <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <h1 class="h3 mb-1 text-gray-800">Mantenciones Fisícas SICEP</h1>
-                <p class="mb-5">Esta herramienta es para llevar un control de las mantenciones Fisícas</p>
+                <h1 class="h3 mb-1 text-gray-800">Mantenciones Físicas SICEP</h1>
+                <p class="mb-5">Esta herramienta es para llevar un control de las mantenciones Físicas </p>
                 <!-- Botones al costado derecho -->
                     
                 <div class="col-lg-2 col-sm-12 mt-3 text-right">
@@ -473,7 +473,7 @@ session_start();
                                     <center><h2>Mantenciones SICEP</h2></center>
                                     <br>
                                     <br>
-                                    <h6 class="m-0 font-weight-bold text-primary">Ingresos de mantenciones Fisícas</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Ingresos de mantenciones Físicas </h6>
                                 </div>
                                 <?php
                                 // Realiza la conexión a la base de datos y realiza la consulta
@@ -494,12 +494,12 @@ session_start();
                                 $offset = ($pagina_actual - 1) * $registros_por_pagina;
 
                                 // Consulta SQL para obtener los datos desde la tabla de dispositivos con paginación
-                                $sql = "SELECT id, Fecha, observacion, archivo FROM mantenciones LIMIT $offset, $registros_por_pagina";
+                                $sql = "SELECT id, Fecha, observacion, archivo FROM mantencion_fisica LIMIT $offset, $registros_por_pagina";
 
                                 $result = $conn->query($sql);
 
                                 // Contar el total de registros en la tabla de dispositivos para calcular la cantidad de páginas
-                                $sql_total_registros = "SELECT COUNT(*) AS total FROM mantenciones";
+                                $sql_total_registros = "SELECT COUNT(*) AS total FROM mantencion_fisica";
                                 $result_total = $conn->query($sql_total_registros);
                                 $row_total = $result_total->fetch_assoc();
                                 $total_registros = $row_total['total'];
@@ -570,12 +570,12 @@ session_start();
                                                 <input type="date" class="form-control" id="fecha" name="fecha">
                                             </div>
                                             <div class="form-group">
-                                                <label for="detalles">Detalles</label>
-                                                <input type="text" class="form-control" id="detalles" name="detalles">
+                                                <label for="detalles">Observacion</label>
+                                                <input type="text" class="form-control" id="Observacion" name="Observacion">
                                             </div>
                                             <div class="form-group">
-                                                <label for="asistencia">Asistencia</label>
-                                                <input type="text" class="form-control" id="asistencia" name="asistencia">
+                                                <label for="asistencia">Archivo</label>
+                                                <input type="text" class="form-control" id="Archivo" name="Archivo">
                                             </div>
                                             <!-- Agrega más campos según sea necesario -->
                                             <input type="hidden" id="registroId" name="registroId">
@@ -609,7 +609,7 @@ session_start();
                                             }
                                         };
 
-                                        xhr.open('GET', 'eliminar_mantencion.php?id=' + id, true);
+                                        xhr.open('GET', 'eliminar_mantencion2.php?id=' + id, true);
                                         xhr.send();
                                     }
 
@@ -620,14 +620,14 @@ session_start();
                                             // Obtén los datos del registro
                                             var tr = $(this).closest('tr');
                                             var fecha = tr.find('td:eq(0)').text();
-                                            var detalles = tr.find('td:eq(1)').text();
-                                            var asistencia = tr.find('td:eq(2)').text();
+                                            var Observacion = tr.find('td:eq(1)').text();
+                                            var Archivo = tr.find('td:eq(2)').text();
                                             var id = $(this).data('id');
 
                                             // Rellena el modal con los datos
                                             $('#editarModal #fecha').val(fecha);
-                                            $('#editarModal #detalles').val(detalles);
-                                            $('#editarModal #asistencia').val(asistencia);
+                                            $('#editarModal #Observacion').val(Observacion);
+                                            $('#editarModal #Archivo').val(Archivo);
                                             $('#editarModal #registroId').val(id);
 
                                             // Muestra el modal
@@ -640,17 +640,17 @@ session_start();
                                         // Recoge los datos actualizados del formulario
                                         var id = $('#editarModal #registroId').val(); // Asegúrate de obtener el id del registro
                                         var fechaActualizada = $('#editarModal #fecha').val();
-                                        var detallesActualizados = $('#editarModal #detalles').val();
-                                        var asistenciaActualizada = $('#editarModal #asistencia').val();
+                                        var ObservacionActualizada = $('#editarModal #Observacion').val(); // Corregido para coincidir con el nombre correcto de la variable
+                                        var ArchivoActualizado = $('#editarModal #Archivo').val(); // Nombre de la variable ajustado para coherencia
 
                                         $.ajax({
                                             type: "POST",
-                                            url: "actualizar_mantencion.php",
+                                            url: "actualizar_mantencion2.php",
                                             data: {
                                                 id: id,
                                                 fecha: fechaActualizada,
-                                                detalles: detallesActualizados,
-                                                asistencia: asistenciaActualizada
+                                                observacion: ObservacionActualizada, // Asegúrate de que estos nombres coincidan con lo esperado en el PHP
+                                                archivo: ArchivoActualizado
                                             },
                                             success: function(response) {
                                                 if (!response.error) {
@@ -668,6 +668,7 @@ session_start();
 
                                         $('#editarModal').modal('hide'); // Cierra el modal
                                     });
+
 
 
                                     // Si no necesitas una lógica específica al enviar el formulario, puedes eliminar el siguiente bloque
@@ -691,7 +692,7 @@ session_start();
                                     // Función de JavaScript para confirmar la eliminación
                                     function confirmarEliminar(id) {
                                         if(confirm("¿Realmente quieres eliminar este registro?")) {
-                                            window.location.href = "eliminar_registro.php?id=" + id;
+                                            window.location.href = "eliminar_registro2.php?id=" + id;
                                         }
                                     }
                                 </script>
@@ -739,7 +740,7 @@ session_start();
                             </div>
 
                             <div class="modal-body">
-                                <form action="procesar_combinado3.php" method="POST" enctype="multipart/form-data">
+                                <form action="procesar_combinado4.php" method="POST" enctype="multipart/form-data">
                                     <!-- Sección para ingresar nuevos registros -->
                                     <h6>Agregar Nuevo Registro</h6>
                                     <div class="form-group">
