@@ -289,8 +289,8 @@ session_start();
                         <div id="collapseFour" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
                             <div class="bg-white py-2 collapse-inner rounded">
                                 <h6 class="collapse-header">Listado de Mantenciones:</h6>
-                                <a class="collapse-item" href="mantenciones.php">Listado de Mantenciones</a>
-                                <a class="collapse-item" href="#">Programar Mantención</a>
+                                <a class="collapse-item" href="mantenciones.php">Mantenciones Fisícas</a>
+                                <a class="collapse-item" href="mantenciones2.php">mantenciones Logicas</a>
                             </div>
                         </div>
                     </li>';

@@ -1,48 +1,5 @@
 <?php
-// Conexión a la base de datos (asegúrate de tener la conexión establecida)
-/*$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "prueba";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verifica si la conexión es exitosa
-if ($conn->connect_error) {
-    $response['success'] = false;
-    $response['message'] = 'Error en la conexión a la base de datos';
-    echo json_encode($response);
-    exit; // Termina el script
-}
-
-// Lógica para obtener el ID del extintor a partir de un parámetro en la solicitud
-if (isset($_GET['id_extintor'])) {
-    $id_extintor = $_GET['id_extintor'];
-    
-    // Realiza una consulta para obtener el ID del extintor a partir de la base de datos
-    $sql = "SELECT id_extintor FROM extintores WHERE id = ?"; // Ajusta la consulta a tu estructura de la base de datos
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('i', $id_extintor); // Suponiendo que el ID del extintor es un número entero
-
-    if ($stmt->execute()) {
-        $stmt->bind_result($id_extintor);
-        $stmt->fetch();
-        $response['success'] = true;
-        $response['id_extintor'] = $id_extintor;
-    } else {
-        $response['success'] = false;
-        $response['message'] = 'Error al obtener el ID del extintor';
-    }
-
-    $stmt->close();
-} else {
-    $response['success'] = false;
-    $response['message'] = 'ID del extintor no especificado en la solicitud';
-}
-
-echo json_encode($response);*/
-// Conexión a la base de datos (asegúrate de tener la conexión establecida)
-// Conexión a la base de datos (asegúrate de tener la conexión establecida)
 $servername = "localhost";
 $username = "root";
 $password = "";
