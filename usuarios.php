@@ -375,7 +375,7 @@ session_start();
                                         die("Conexión fallida: " . $conn->connect_error);
                                     }
 
-                                    $registros_por_pagina = 5;
+                                    $registros_por_pagina = 10;
                                     $pagina_actual = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
                                     $offset = ($pagina_actual - 1) * $registros_por_pagina;
 
