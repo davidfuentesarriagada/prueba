@@ -570,12 +570,12 @@ session_start();
                                                 <input type="date" class="form-control" id="fecha" name="fecha">
                                             </div>
                                             <div class="form-group">
-                                                <label for="detalles">Detalles</label>
-                                                <input type="text" class="form-control" id="detalles" name="detalles">
+                                                <label for="detalles">Observacion</label>
+                                                <input type="text" class="form-control" id="Observacion" name="Observacion">
                                             </div>
                                             <div class="form-group">
-                                                <label for="asistencia">Asistencia</label>
-                                                <input type="text" class="form-control" id="asistencia" name="asistencia">
+                                                <label for="asistencia">Archivo</label>
+                                                <input type="text" class="form-control" id="Archivo" name="Archivo">
                                             </div>
                                             <!-- Agrega más campos según sea necesario -->
                                             <input type="hidden" id="registroId" name="registroId">
@@ -620,14 +620,14 @@ session_start();
                                             // Obtén los datos del registro
                                             var tr = $(this).closest('tr');
                                             var fecha = tr.find('td:eq(0)').text();
-                                            var detalles = tr.find('td:eq(1)').text();
-                                            var asistencia = tr.find('td:eq(2)').text();
+                                            var Observacion = tr.find('td:eq(1)').text();
+                                            var Archivo = tr.find('td:eq(2)').text();
                                             var id = $(this).data('id');
 
                                             // Rellena el modal con los datos
                                             $('#editarModal #fecha').val(fecha);
-                                            $('#editarModal #detalles').val(detalles);
-                                            $('#editarModal #asistencia').val(asistencia);
+                                            $('#editarModal #Observacion').val(Observacion);
+                                            $('#editarModal #Archivo').val(Archivo);
                                             $('#editarModal #registroId').val(id);
 
                                             // Muestra el modal
@@ -640,8 +640,8 @@ session_start();
                                         // Recoge los datos actualizados del formulario
                                         var id = $('#editarModal #registroId').val(); // Asegúrate de obtener el id del registro
                                         var fechaActualizada = $('#editarModal #fecha').val();
-                                        var detallesActualizados = $('#editarModal #detalles').val();
-                                        var asistenciaActualizada = $('#editarModal #asistencia').val();
+                                        var ObservacionActualizada = $('#editarModal #Observacion').val(); // Corregido para coincidir con el nombre correcto de la variable
+                                        var ArchivoActualizado = $('#editarModal #Archivo').val(); // Nombre de la variable ajustado para coherencia
 
                                         $.ajax({
                                             type: "POST",
@@ -649,8 +649,8 @@ session_start();
                                             data: {
                                                 id: id,
                                                 fecha: fechaActualizada,
-                                                detalles: detallesActualizados,
-                                                asistencia: asistenciaActualizada
+                                                observacion: ObservacionActualizada, // Asegúrate de que estos nombres coincidan con lo esperado en el PHP
+                                                archivo: ArchivoActualizado
                                             },
                                             success: function(response) {
                                                 if (!response.error) {
@@ -668,6 +668,7 @@ session_start();
 
                                         $('#editarModal').modal('hide'); // Cierra el modal
                                     });
+
 
 
                                     // Si no necesitas una lógica específica al enviar el formulario, puedes eliminar el siguiente bloque

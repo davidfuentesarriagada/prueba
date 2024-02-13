@@ -1,14 +1,16 @@
 <?php
 // Función para mostrar mensajes en formato JSON
-function mostrarMensaje($mensaje, $esError = false) {
+function mostrarMensaje($mensaje, $esError = false, $datosDebug = []) {
     header('Content-Type: application/json');
-    echo json_encode(['mensaje' => $mensaje, 'error' => $esError]);
+    $respuesta = ['mensaje' => $mensaje, 'error' => $esError];
+    if (!empty($datosDebug)) {
+        $respuesta['debug'] = $datosDebug;
+    }
+    echo json_encode($respuesta);
     exit();
 }
 
-// Verificar el método de la solicitud
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Conexión a la base de datos
     $servername = "localhost";
     $username = "root";
     $password = "";
@@ -19,40 +21,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mostrarMensaje("Conexión fallida: " . $conn->connect_error, true);
     }
 
-    // Validar y obtener el ID del registro a actualizar
     $id = isset($_POST['id']) && is_numeric($_POST['id']) ? $_POST['id'] : null;
     if (is_null($id)) {
         mostrarMensaje("El ID no está definido o es inválido.", true);
     }
 
-    // Obtener los otros valores del formulario
     $fecha = $_POST['fecha'] ?? null;
-    $observacion = $_POST['observacion'] ?? null;
-    
-    // Inicializar $archivoActa con un valor predeterminado o existente
-    $archivoActa = ''; // Asumir un valor predeterminado o recuperar el existente de la base de datos si es necesario
 
-    // Manejo de la carga del archivo, si se envió uno
-    if (isset($_FILES['archivoActa']) && $_FILES['archivoActa']['error'] == 0) {
-        $directorioDestino = "uploads/"; // Asegúrate de que este directorio existe y tiene permisos de escritura
+    // Inicializa $observacion y $archivoActa con null para manejar correctamente su ausencia
+    $observacion = null;
+    $archivoActa = null;
+
+    // Consulta para obtener los datos existentes
+    $sql = "SELECT observacion, archivo FROM mantenciones WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    if ($stmt->execute()) {
+        $resultado = $stmt->get_result();
+        if ($fila = $resultado->fetch_assoc()) {
+            $observacionExistente = $fila['observacion'];
+            $archivoActaExistente = $fila['archivo'];
+        }
+    }
+    $stmt->close();
+
+    // Asigna la observación existente si no se proporciona una nueva
+    $observacion = $_POST['observacion'] ?? $observacionExistente;
+
+    // Si se sube un nuevo archivo, procesa la carga
+    if (isset($_FILES['archivoActa']) && $_FILES['archivoActa']['error'] === UPLOAD_ERR_OK) {
+        $directorioDestino = "uploads/";
         $nombreArchivo = basename($_FILES['archivoActa']['name']);
         $rutaArchivo = $directorioDestino . $nombreArchivo;
-        
-        // Mover el archivo subido al directorio de destino
         if (move_uploaded_file($_FILES['archivoActa']['tmp_name'], $rutaArchivo)) {
-            $archivoActa = $nombreArchivo; // Actualizar con el nuevo nombre de archivo
+            $archivoActa = $nombreArchivo; // Actualiza con el nuevo nombre de archivo
         } else {
             mostrarMensaje("Error al cargar el archivo.", true);
         }
+    } else {
+        // Mantiene el archivo existente si no se sube uno nuevo
+        $archivoActa = $archivoActaExistente;
     }
 
-    // Preparar la consulta SQL para actualizar el registro
+    // Preparar la consulta de actualización
     $sql = "UPDATE mantenciones SET fecha = ?, observacion = ?, archivo = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
     if (!$stmt) {
         mostrarMensaje("Error en la preparación de la sentencia: " . $conn->error, true);
     }
 
+    // Ejecutar la actualización
     $stmt->bind_param("sssi", $fecha, $observacion, $archivoActa, $id);
     if ($stmt->execute()) {
         mostrarMensaje("Registro actualizado exitosamente.");
