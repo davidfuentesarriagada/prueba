@@ -1,8 +1,7 @@
 <?php
 session_start();
+
 ?>
-
-
 
 
 <!DOCTYPE html>
@@ -22,24 +21,27 @@ session_start();
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- estilostemplate-->
+    <link href="css/estilo.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/144e03a4af.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    
+    <!-- CSS personalizado --> 
     <link rel="stylesheet" href="excel.css">  
-
-
-    <!--datables CSS básico-->
+      
+    <!--datables CSS básico--> 
     <link rel="stylesheet" type="text/css" href="datatables/datatables.min.css"/>
     <!--datables estilo bootstrap 4 CSS-->  
     <link rel="stylesheet"  type="text/css" href="datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">
            
     <!--font awesome con CDN-->  
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">  
-      
-
-    <script src="https://kit.fontawesome.com/144e03a4af.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
 </head>
 
@@ -79,6 +81,8 @@ session_start();
             Secciones
         </div>
 
+        <!-- Nav Item - Pages Collapse Menu -->
+
         <?php
             // Verificar el rol del usuario
 
@@ -113,8 +117,7 @@ session_start();
                             
                 }
         ?>
-
-        <!-- Nav Item - Pages Collapse Menu -->
+        
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
                 aria-expanded="true" aria-controls="collapseOne">
@@ -161,21 +164,22 @@ session_start();
                     <a class="collapse-item" href="reuniones.php">Reuniones</a>
                     <a class="collapse-item" href="extintores2.php">C. Extintores</a>
                     <a class="collapse-item" href="monitores.php">Monitores Emer.</a>
-                    <a class="collapse-item" href="#">Registro simulacro.</a>
+                    <a class="collapse-item" href="simulacros.php">Registro simulacro.</a>
                 </div>
             </div>
         </li>
+
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSix"
                 aria-expanded="true" aria-controls="collapseSix">
                 <i class="fa-solid fa-arrow-right"></i>
-                <span>Permisos ADM</span>
+                <span>Solicitudes</span>
             </a>
             <div id="collapseSix" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Opciones:</h6>
-                    <a class="collapse-item" href="solicitudes.php">Permisos ADM</a>
-                    <a class="collapse-item" href="mis_solicitudes.php">Mis permisos</a>
+                    <a class="collapse-item" href="solicitudes.php">Solicitud</a>
+                    <a class="collapse-item" href="mis_solicitudes.php">Mis Solicitudes</a>
                     <?php
                     // Verificar el rol del usuario
 
@@ -184,9 +188,7 @@ session_start();
                         if ($_SESSION['rol'] === 'admin' || $_SESSION['rol'] === 'ejecutivo' || $_SESSION['rol'] === 'general') {
                             // Mostrar opciones para administrador
                             echo '<a class="collapse-item" href="VistaSolicitudes.php">Permisos Internos</a>
-                            <a class="collapse-item" href="aprueba.php">Aprovar permiso</a>
                             <a class="collapse-item" href="mantenedorJefe.php">Mantenedor Jefaturas</a>';
-                            
                         } elseif ($_SESSION['rol'] === 'visualizador') {
                             
                         }
@@ -201,58 +203,93 @@ session_start();
         <?php
         // Verificar el rol del usuario
 
-        if (isset($_SESSION['rol'])) {
-            // Si el usuario ha iniciado sesión, mostrar las opciones según su rol
-            if ($_SESSION['rol'] === 'admin' || $_SESSION['rol'] === 'ejecutivo' || $_SESSION['rol'] === 'general') {
-                // Mostrar opciones para administrador
-                echo '<li class="nav-item">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"
-                            aria-expanded="true" aria-controls="collapseThree">
-                            <i class="fas fa-fw fa-network-wired"></i>
-                            <span>Inventario</span>
-                        </a>
-                        <div id="collapseThree" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
-                            <div class="bg-white py-2 collapse-inner rounded">
-                                <h6 class="collapse-header">Opciones de Inventario</h6>
-                                <a class="collapse-item" href="Nuevo-Producto.php">Ingreso Inventario</a>
-                                <a class="collapse-item" href="Listado-productos.php">Listado Inventario</a>
-                                <a class="collapse-item" href="Listado-bajas.php">Listado Bajas</a>
-                                <a class="collapse-item" href="listados.php">Información Adicional</a>
-                                <a class="collapse-item" href="#collapseMantenedor" data-toggle="collapse" aria-expanded="false">
-                                    <span>Mantenedor</span>
-                                    <span class="arrow"><i class="fas fa-angle-down"></i></span>
-                                </a>
-                                <div class="collapse" id="collapseMantenedor">
-                                    <a class="collapse-item" href="mantenedor.php">Mantenedor Equipos</a>
-                                    <a class="collapse-item" href="mantenedor_dis.php">Mantenedor dispositivos</a>
-                                    <a class="collapse-item" href="mantenedor_soft.php">Mantenedor Software</a>
-                                    <a class="collapse-item" href="mantenedor_extintores.php">Mantenedor Extintores</a>
-                                    <a class="collapse-item" href="mantenedor_monitores.php">Mantenedor Monitores</a>
+            if (isset($_SESSION['rol'])) {
+                // Si el usuario ha iniciado sesión, mostrar las opciones según su rol
+                if ($_SESSION['rol'] === 'admin' || $_SESSION['rol'] === 'ejecutivo' || $_SESSION['rol'] === 'general') {
+                    // Mostrar opciones para administrador
+                    echo '<li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInventario"
+                            aria-expanded="true" aria-controls="collapseInventario">
+                                <i class="fas fa-fw fa-network-wired"></i>
+                                <span>Inventario</span>
+                            </a>
+                            <div id="collapseInventario" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
+                                <div class="bg-white py-2 collapse-inner rounded">
+                                    <h6 class="collapse-header">Opciones de Inventario</h6>
+                                    
+                                    <!-- Inventario AIA -->
+                                    <a class="collapse-item" href="#collapseInventarioAIA" data-toggle="collapse" aria-expanded="false">
+                                        <span>Inventario AIA</span>
+                                        <span class="arrow"><i class="fas fa-angle-down"></i></span>
+                                    </a>
+                                    <div class="collapse" id="collapseInventarioAIA">
+                                        <a class="collapse-item" href="Ingreso-Inventario-AIA.php">Ingreso Inventario</a>
+                                        <a class="collapse-item" href="Listado-Inventario-AIA.php">Listado Inventario</a>
+                                        <a class="collapse-item" href="Listado-Bajas-AIA.php">Listado Bajas</a>
+                                        <a class="collapse-item" href="Informacion-Adicional-AIA.php">Información Adicional</a>
+                                    </div>
+                                    
+                                    <!-- Inventario SICEP -->
+                                    <a class="collapse-item" href="#collapseInventarioSICEP" data-toggle="collapse" aria-expanded="false">
+                                        <span>Inventario SICEP</span>
+                                        <span class="arrow"><i class="fas fa-angle-down"></i></span>
+                                    </a>
+                                    <div class="collapse" id="collapseInventarioSICEP">
+                                        <a class="collapse-item" href="Ingreso-Inventario-SICEP.php">Ingreso Inventario</a>
+                                        <a class="collapse-item" href="Listado-Inventario-SICEP.php">Listado Inventario</a>
+                                        <a class="collapse-item" href="Listado-Bajas-SICEP.php">Listado Bajas</a>
+                                        <a class="collapse-item" href="Informacion-Adicional-SICEP.php">Información Adicional</a>
+                                    </div>
+                                    
+                                    <!-- Inventario CODETIA -->
+                                    <a class="collapse-item" href="#collapseInventarioCODETIA" data-toggle="collapse" aria-expanded="false">
+                                        <span>Inventario CODETIA</span>
+                                        <span class="arrow"><i class="fas fa-angle-down"></i></span>
+                                    </a>
+                                    <div class="collapse" id="collapseInventarioCODETIA">
+                                        <a class="collapse-item" href="Ingreso-Inventario-CODETIA.php">Ingreso Inventario</a>
+                                        <a class="collapse-item" href="Listado-Inventario-CODETIA.php">Listado Inventario</a>
+                                        <a class="collapse-item" href="Listado-Bajas-CODETIA.php">Listado Bajas</a>
+                                        <a class="collapse-item" href="Informacion-Adicional-CODETIA.php">Información Adicional</a>
+                                    </div>
+                                    
+                                    <!-- Mantenedor -->
+                                    <a class="collapse-item" href="#collapseMantenedor" data-toggle="collapse" aria-expanded="false">
+                                        <span>Mantenedor</span>
+                                        <span class="arrow"><i class="fas fa-angle-down"></i></span>
+                                    </a>
+                                    <div class="collapse" id="collapseMantenedor">
+                                        <a class="collapse-item" href="mantenedor.php">Mantenedor Equipos</a>
+                                        <a class="collapse-item" href="mantenedor_dis.php">Mantenedor dispositivos</a>
+                                        <a class="collapse-item" href="mantenedor_soft.php">Mantenedor Software</a>
+                                        <a class="collapse-item" href="mantenedor_extintores.php">Mantenedor Extintores</a>
+                                        <a class="collapse-item" href="mantenedor_extintores.php">Mantenedor Extintores</a>
+                                        <a class="collapse-item" href="mantenedor_monitores.php">Mantenedor Monitores</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </li>
 
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
-                            aria-expanded="true" aria-controls="collapseFour">
-                            <i class="fa-brands fa-creative-commons-nd"></i>
-                            <span>Mantenciones</span>
-                        </a>
-                        <div id="collapseFour" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
+                        <li class="nav-item">
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFour"
+                                aria-expanded="true" aria-controls="collapseFour">
+                                <i class="fa-brands fa-creative-commons-nd"></i>
+                                <span>Mantenciones</span>
+                            </a>
+                            <div id="collapseFour" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
                                 <div class="bg-white py-2 collapse-inner rounded">
                                     <h6 class="collapse-header">Listado de Mantenciones:</h6>
                                     <a class="collapse-item" href="mantenciones.php">Mantenciones Fisícas</a>
                                     <a class="collapse-item" href="mantenciones2.php">mantenciones Logicas</a>
                                 </div>
                             </div>
-                    </li>';
-            } elseif ($_SESSION['rol'] === 'visualizador') {
+                        </div>
+                        </li>';
+                } elseif ($_SESSION['rol'] === 'visualizador') {
+                    
+                }
                 
             }
-            
-        }
         ?>
 
 
@@ -261,191 +298,114 @@ session_start();
         <br>
 
         <?php
-        if (isset($_SESSION['rol'])) {
-            // Si el usuario ha iniciado sesión, mostrar las opciones según su rol
-            if ($_SESSION['rol'] === 'admin' || $_SESSION['rol'] === 'ejecutivo' || $_SESSION['rol'] === 'general') {
-                // Mostrar opciones para administrador
-                echo'<div class="sidebar-heading">
-                    Administración
-                </div>';
-            } elseif ($_SESSION['rol'] === 'visualizador') {
-                echo'<div class="sidebar-heading">
-                Que tengas un lindo día!!!
-                </div>' ;    
+            if (isset($_SESSION['rol'])) {
+                // Si el usuario ha iniciado sesión, mostrar las opciones según su rol
+                if ($_SESSION['rol'] === 'admin' || $_SESSION['rol'] === 'ejecutivo' || $_SESSION['rol'] === 'general') {
+                    // Mostrar opciones para administrador
+                    echo'<div class="sidebar-heading">
+                        Administración
+                    </div>';
+                } elseif ($_SESSION['rol'] === 'visualizador') {
+                    echo'<div class="sidebar-heading">
+                    Que tengas un lindo día!!!
+                    </div>' ;    
+                }
+                
             }
-            
-        }
         ?>
 
         <?php
         // Verificar el rol del usuario
 
-        if (isset($_SESSION['rol'])) {
-            // Si el usuario ha iniciado sesión, mostrar las opciones según su rol
-            if ($_SESSION['rol'] === 'admin' || $_SESSION['rol'] === 'ejecutivo' || $_SESSION['rol'] === 'general') {
-                // Mostrar opciones para administrador
-                echo '<li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                        aria-expanded="true" aria-controls="collapseUtilities">
-                        <i class="fas fa-fw fa-wrench"></i>
-                        <span>Usuarios</span>
-                    </a>
-                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                        data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Custom Utilities:</h6>
-                            <a class="collapse-item" href="usuarios.php">Usuarios</a>
-                            <a class="collapse-item" href="comentarios.php">Comentarios</a>
-                            <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                            <a class="collapse-item" href="utilities-other.html">Other</a>
+            if (isset($_SESSION['rol'])) {
+                // Si el usuario ha iniciado sesión, mostrar las opciones según su rol
+                if ($_SESSION['rol'] === 'admin' || $_SESSION['rol'] === 'ejecutivo' || $_SESSION['rol'] === 'general') {
+                    // Mostrar opciones para administrador
+                    echo '<li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                            aria-expanded="true" aria-controls="collapseUtilities">
+                            <i class="fas fa-fw fa-wrench"></i>
+                            <span>Usuarios</span>
+                        </a>
+                        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                            data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Custom Utilities:</h6>
+                                <a class="collapse-item" href="usuarios.php">Usuarios</a>
+                                <a class="collapse-item" href="comentarios.php">Comentarios</a>
+                                <a class="collapse-item" href="utilities-animation.html">Animations</a>
+                                <a class="collapse-item" href="utilities-other.html">Other</a>
+                            </div>
                         </div>
-                    </div>
-                </li>';
-            } elseif ($_SESSION['rol'] === 'visualizador') {
-                        
+                    </li>';
+                } elseif ($_SESSION['rol'] === 'visualizador') {
+                            
+                }
+                
             }
-            
-        }
         ?>
 
 
 
-        </ul>
-        <!-- End of Sidebar -->
+    </ul>
+    <!-- End of Sidebar -->
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column" style="background-image: url(img/Abstract_background_15.jpg);background-size: 100% 100%; background-attachment: fixed; visibility: visible;">
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column" style="background-image: url(img/Abstract_background_15.jpg);background-size: 100% 100%; background-attachment: fixed; visibility: visible;">
 
-            <!-- Main Content -->
-            <div id="content">
+        <!-- Main Content -->
+        <div id="content" >
 
-                <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" style="background-image: url(img/Abstract_background_15.jpg);background-size: 100% 100%; background-attachment: fixed; visibility: visible;">
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" style="background-image: url(img/Abstract_background_15.jpg);background-size: 100% 100%; background-attachment: fixed; visibility: visible;">
 
 
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
+                <!-- Sidebar Toggle (Topbar) -->
+                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars"></i>
+                </button>
+            
+
                 
-
-                    
-                    <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" id="searchInput" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button" id="searchButton">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-
-                    <!-- Agrega el siguiente código HTML para el modal -->
-                    <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="searchModalLabel">Resultados de búsqueda</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                                    <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <table class="table table-responsive">
-                                        <thead>
-                                            <tr>
-                                            <th>Nombre</th>
-                                            <th>Cargo</th>
-                                            <th>Telefono</th>
-                                            <th>Email</th>
-                                            <th>cargo en cómite</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="modalResultsTable">
-                                            <!-- Aquí se mostrarán los resultados de la búsqueda -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <script>
-                            // Capturar el evento de clic en el botón de búsqueda
-                            document.getElementById('searchButton').addEventListener('click', function() {
-                                // Obtener el valor del campo de búsqueda
-                                var searchTerm = document.getElementById('searchInput').value;
-
-                                // Realizar la solicitud AJAX al archivo "buscar.php"
-                                var xhr = new XMLHttpRequest();
-                                xhr.onreadystatechange = function() {
-                                if (xhr.readyState === 4 && xhr.status === 200) {
-                                    // Actualizar la tabla con los resultados de búsqueda
-                                    var results = JSON.parse(xhr.responseText);
-                                    var table = document.getElementById('modalResultsTable');
-                                    table.innerHTML = ''; // Limpiar los resultados anteriores
-
-                                    // Agregar los resultados a la tabla en el modal
-                                    results.forEach(function(result) {
-                                            var row = table.insertRow();
-                                            row.insertCell(0).innerHTML = result.nombre;
-                                            row.insertCell(1).innerHTML = result.cargo;
-                                            row.insertCell(2).innerHTML = result.area_trabajo;
-                                            row.insertCell(3).innerHTML = result.telefono;
-                                            row.insertCell(4).innerHTML = result.email;
-                                            row.insertCell(5).innerHTML = result.cargo_p;
-                                        });
-
-                                        // Mostrar el modal
-                                    $('#searchModal').modal('show');
-                                }
-                                };
-
-                                xhr.open('GET', 'buscar_comite.php?term=' + searchTerm, true);
-                                xhr.send();
-                            });
-                        </script>
-                    </div>
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
-
-                        <!-- Agregar imágenes responsivas -->
-                        <li class="nav-item">
-                            <a class="nav-link"  href="https://www.sicep.cl">
-                                <img src="img/Marca-AIA.png" class="img-fluid" alt="Imagen 1" style="width: 90px; height: 55px;">
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <img src="img/aia.png" class="img-fluid" alt="Imagen 2" style="width: 130px; height: 55px;">
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <img src="img/exponor.png" class="img-fluid" alt="Imagen 3" style="width: 120px; height: 55px;">
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://www.codetia.cl" target="_blank">
-                                <img src="img/codetia2.png" class="img-fluid" alt="Imagen 3" style="width: 80px; height: 55px;">
-                            </a>
-                        </li>
-
-                        <div class="topbar-divider d-none d-sm-block"></div>
-
-                        <!-- Nav Item - User Information -->
-                        <?php include 'navbar.php'; ?>
-
-                    </ul>
-
-                </nav>
-                <!-- End of Topbar -->
                 
-               
+                <!-- Topbar Navbar -->
+                <ul class="navbar-nav ml-auto">
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
+                    <!-- Agregar imágenes responsivas -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <img src="img/Marca-AIA.png" class="img-fluid" alt="Imagen 1" style="width: 90px; height: 55px;">
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <img src="img/aia.png" class="img-fluid" alt="Imagen 2" style="width: 130px; height: 55px;">
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <img src="img/exponor.png" class="img-fluid" alt="Imagen 3" style="width: 120px; height: 55px;">
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.codetia.cl" target="_blank">
+                            <img src="img/codetia2.png" class="img-fluid" alt="Imagen 3" style="width: 80px; height: 55px;">
+                        </a>
+                    </li>
+
+                    <div class="topbar-divider d-none d-sm-block"></div>
+
+                    <!-- Nav Item - User Information -->
+                    <?php include 'navbar.php'; ?>
+
+                </ul>
+
+            </nav>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
 
                 <!-- Page Heading -->
                 <h1 class="h3 mb-4 text-gray-800">Inventario de Extintores AIA.</h1>
@@ -728,12 +688,7 @@ session_start();
                 </div>
 
             </div>
-
-
-
-            </div>
-            <!-- End of Main Content -->
-
+            <!-- /.container-fluid -->
             <!-- Footer -->
             <footer class="sticky-footer bg-white" style="background-image: url(img/Abstract_background_15.jpg);background-size: 100% 100%; background-attachment: fixed; visibility: visible;">
                 <div class="container my-auto">
@@ -742,11 +697,16 @@ session_start();
                     </div>
                 </div>
             </footer>
-            <!-- End of Footer -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Main Content -->
+        
+        
 
+    </div>
+    <!-- End of Content Wrapper -->
+        
+        
     </div>
     <!-- End of Page Wrapper -->
 
@@ -761,15 +721,15 @@ session_start();
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Esta seguro?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Seleccione "Cerrar sesión" a continuación si está listo para finalizar su sesión actual.</div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Cerrar sesión</a>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
                 </div>
             </div>
         </div>
@@ -781,20 +741,30 @@ session_start();
 
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    
+
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- jQuery, Popper.js, Bootstrap JS -->
+    <script src="jquery/jquery-3.3.1.min.js"></script>
+    <script src="popper/popper.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+      
+    <!-- datatables JS -->
+    <script type="text/javascript" src="datatables/datatables.min.js"></script>    
+     
     <!-- para usar botones en datatables JS -->  
     <script src="datatables/Buttons-1.5.6/js/dataTables.buttons.min.js"></script>  
     <script src="datatables/JSZip-2.5.0/jszip.min.js"></script>    
     <script src="datatables/pdfmake-0.1.36/pdfmake.min.js"></script>    
     <script src="datatables/pdfmake-0.1.36/vfs_fonts.js"></script>
     <script src="datatables/Buttons-1.5.6/js/buttons.html5.min.js"></script>
-     <!-- datatables JS -->
-    <script type="text/javascript" src="datatables/datatables.min.js"></script>    
+     
     <!-- código JS propìo-->    
-    <script type="text/javascript" src="excel.js"></script>  
+    <script type="text/javascript" src="excel.js"></script>
 
 </body>
 
