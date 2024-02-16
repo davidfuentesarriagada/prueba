@@ -26,8 +26,7 @@ session_start();
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="excel.css">  
-
-
+      
     <!--datables CSS básico-->
     <link rel="stylesheet" type="text/css" href="datatables/datatables.min.css"/>
     <!--datables estilo bootstrap 4 CSS-->  
@@ -40,10 +39,11 @@ session_start();
     <script src="https://kit.fontawesome.com/144e03a4af.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-
 </head>
 
 <body id="page-top">
+
+  
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -79,6 +79,8 @@ session_start();
             Secciones
         </div>
 
+        <!-- Nav Item - Pages Collapse Menu -->
+
         <?php
             // Verificar el rol del usuario
 
@@ -113,8 +115,7 @@ session_start();
                             
                 }
         ?>
-
-        <!-- Nav Item - Pages Collapse Menu -->
+        
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne"
                 aria-expanded="true" aria-controls="collapseOne">
@@ -165,6 +166,7 @@ session_start();
                 </div>
             </div>
         </li>
+
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSix"
                 aria-expanded="true" aria-controls="collapseSix">
@@ -241,12 +243,13 @@ session_start();
                             <span>Mantenciones</span>
                         </a>
                         <div id="collapseFour" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
-                                <div class="bg-white py-2 collapse-inner rounded">
-                                    <h6 class="collapse-header">Listado de Mantenciones:</h6>
-                                    <a class="collapse-item" href="mantenciones.php">Mantenciones Fisícas</a>
-                                    <a class="collapse-item" href="mantenciones2.php">mantenciones Logicas</a>
-                                </div>
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                <h6 class="collapse-header">Listado de Mantenciones:</h6>
+                                <a class="collapse-item" href="mantenciones.php">Mantenciones Fisícas</a>
+                                <a class="collapse-item" href="mantenciones2.php">mantenciones Logicas</a>
                             </div>
+                        </div>
+                        </div>
                     </li>';
             } elseif ($_SESSION['rol'] === 'visualizador') {
                 
@@ -442,7 +445,34 @@ session_start();
                 </nav>
                 <!-- End of Topbar -->
                 
-               
+                <!-- Modal para subir actas 
+                <div class="modal fade" id="subirActaModal" tabindex="-1" role="dialog" aria-labelledby="subirActaModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="subirActaModalLabel">Subir Documento</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                 Formulario para la subida del acta -->
+                                <!-- <form action="subir_documentos.php" method="POST" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label for="archivoActa">Seleccionar Archivo:</label>
+                                        <input type="file" class="form-control-file" id="archivoActa" name="archivoActa" accept=".pdf, .doc, .docx">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Subir</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+
+
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -795,7 +825,7 @@ session_start();
      <!-- datatables JS -->
     <script type="text/javascript" src="datatables/datatables.min.js"></script>    
     <!-- código JS propìo-->    
-    <script type="text/javascript" src="excel.js"></script> 
+    <script type="text/javascript" src="excel.js"></script>  
 
 </body>
 
