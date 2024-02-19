@@ -319,8 +319,6 @@ include 'functions.php';
                                 <a class="collapse-item" href="usuarios.php">Usuarios</a>
                                 <a class="collapse-item" href="logs.php">Activity Log</a>
                                 <a class="collapse-item" href="comentarios.php">Comentarios</a>
-                                <a class="collapse-item" href="utilities-animation.html">#</a>
-                                <a class="collapse-item" href="utilities-other.html">Other</a>
                             </div>
                         </div>
                     </li>';

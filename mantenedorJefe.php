@@ -287,8 +287,6 @@ session_start();
                             <h6 class="collapse-header">Custom Utilities:</h6>
                             <a class="collapse-item" href="usuarios.php">Usuarios</a>
                             <a class="collapse-item" href="comentarios.php">Comentarios</a>
-                            <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                            <a class="collapse-item" href="utilities-other.html">Other</a>
                         </div>
                     </div>
                 </li>';
