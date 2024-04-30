@@ -647,6 +647,33 @@ session_start();
 
 
                                 </script>
+                                <script>
+                                    function cargarDatosModal(id) {
+                                        $.ajax({
+                                            type: "GET",
+                                            url: "obtener_datos_documentos.php",
+                                            data: { id_documento: id },
+                                            dataType: "json",
+                                            success: function(response) {
+                                                if (!response.error) {
+                                                    $('#fechaEdit').val(response.fecha);
+                                                    $('#tipoDocumentoEdit').val(response.tipo_documento);
+                                                    $('#detallesEdit').val(response.detalles);
+                                                    $('#documentoIdEdit').val(id);
+                                                    $('#editarModal').modal('show');
+                                                } else {
+                                                    alert("Error: " + response.mensaje);
+                                                }
+                                            },
+                                            error: function(xhr, status, error) {
+                                                console.error("Error al cargar los datos: ", error);
+                                                alert("Hubo un problema al intentar cargar los datos para edición.");
+                                            }
+                                        });
+                                    }
+
+                                </script>
+                                
 
 
                                 <!-- Paginación -->
