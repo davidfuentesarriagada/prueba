@@ -503,7 +503,7 @@ session_start();
                                         i.created_at as fecha_alta, 
                                         i.motivo 
                                     FROM inventario i
-                                    LEFT JOIN personal p ON i.id_formu = p.id
+                                    LEFT JOIN personal p ON i.id_formu = p.id_formu
                                     LEFT JOIN dispositivos d ON i.id_dispositivo = d.id
                                     LEFT JOIN equipos e ON i.id_equipos = e.id
                                     LEFT JOIN software s ON i.software_id = s.software_id";  // Asegurándose de que 'software_id' es la columna correcta para unir 'inventario' y 'software'
@@ -555,7 +555,9 @@ session_start();
                                         </tbody>
                                     </table>
                                     <!-- Incluir lógica de paginación aquí -->
-                                </div>
+                                </div><br>
+                                <br>
+                                <br>
 
 
 

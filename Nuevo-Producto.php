@@ -410,12 +410,12 @@ session_start();
                                                             }
 
                                                             // Consulta SQL para obtener los IDs y nombres desde la tabla "personal"
-                                                            $sql = "SELECT id, nombre FROM personal";
+                                                            $sql = "SELECT id_formu, nombre FROM personal";
                                                             $result = $conn->query($sql);
 
                                                             // Genera las opciones del campo de selección
                                                             while ($row = $result->fetch_assoc()) {
-                                                                echo '<option value="' . $row['id'] . '">' . $row['nombre'] . '</option>';
+                                                                echo '<option value="' . $row['id_formu'] . '">' . $row['nombre'] . '</option>';
                                                             }
 
                                                             $conn->close();

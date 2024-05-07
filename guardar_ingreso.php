@@ -1,8 +1,16 @@
 <?php
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+/*echo "<pre>";
+print_r($_POST);
+echo "</pre>";*/
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtener los datos del formulario
     $codigo_inventario = $_POST["codigo_inventario"];
-    $id_personal = $_POST["id_formu"];
+    $id_formu = $_POST["id_formu"];
     $id_dispositivo = $_POST["id_dispositivo"];
     $id_equipos = $_POST["id_equipos"];
     $motivo = $_POST["motivo"];
@@ -21,12 +29,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Conexión fallida: " . $conn->connect_error);
     }
 
+   // Preparar y ejecutar la consulta para obtener el nombre del personal
+    $stmt = $conn->prepare("SELECT nombre FROM personal WHERE id_formu = ?");
+    if (!$stmt) {
+        echo "Error preparando la consulta: " . $conn->error;
+        exit;
+    }
+    $stmt->bind_param("i", $id_formu);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $personal = $row['nombre'];
+    } else {
+        echo "No se encontró personal con ID: $id_formu"; // Más específico
+        $personal = "No encontrado";
+    }
+    $stmt->close();
+   
+
+    
+
     // Crear la consulta SQL para insertar los datos en la tabla "inventario"
-    $sql = "INSERT INTO inventario (codigo_inventario, id_formu, id_dispositivo, id_equipos, motivo) 
-            VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO inventario (codigo_inventario, id_formu, nombre, id_dispositivo, id_equipos, motivo) 
+            VALUES (?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("siiis", $codigo_inventario, $id_personal, $id_dispositivo, $id_equipos, $motivo);
+    $stmt->bind_param("ssssss", $codigo_inventario, $id_formu, $personal,  $id_dispositivo, $id_equipos, $motivo);
 
 
    
