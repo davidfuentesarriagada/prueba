@@ -13,7 +13,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="icon" type="image/png" href="img/recsys.png">
 
     <title>RecSys</title>
 
@@ -61,7 +61,7 @@ session_start();
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
             <div class="sidebar-brand-icon "><br>
-                <img class="mt-4" src="img/logo.png" height="120PX" width="130px">
+                <img class="mt-4" src="img/recsys.png" height="100PX" width="110px" style="border-radius: 20px 20px 20px 20px;">
             </div>
             <div class="sidebar-brand-text mx-3"><sup></sup></div>
         </a><br>
@@ -440,8 +440,8 @@ session_start();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <img src="img/aia.png" class="img-fluid" alt="Imagen 2" style="width: 130px; height: 55px;">
+                            <a class="nav-link" href="https://www.aia.cl" target="_blank">
+                                <img src="https://www.pruebadyc.cl/AIA.png" class="img-fluid" alt="Imagen 2" style="width: 110px; height: 65px;">
                             </a>
                         </li>
                         <li class="nav-item">
@@ -483,103 +483,82 @@ session_start();
                                 <div class="container mt-5">
                                     <h2>Inventario</h2>
                                     <?php
-                                    // Realiza la conexión a la base de datos y realiza la consulta
+                                    // Conexión a la base de datos
                                     $servername = "localhost";
                                     $username = "root";
                                     $password = "";
                                     $dbname = "prueba";
-
                                     $conn = new mysqli($servername, $username, $password, $dbname);
                                     if ($conn->connect_error) {
                                         die("Conexión fallida: " . $conn->connect_error);
                                     }
 
-                                    // Variables de paginación
-                                    $registros_por_pagina = 10; // Cantidad de registros a mostrar por página
-                                    $pagina_actual = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1; // Página actual (por defecto es la página 1)
-                                    $offset = ($pagina_actual - 1) * $registros_por_pagina;
-
-                                    // Consulta SQL para obtener los datos desde la tabla de inventario con paginación
-                                    $sql = "SELECT codigo_inventario, p.nombre as personal, d.nombre as dispositivo, e.marca as equipo, 
-                                    GROUP_CONCAT(s.nombre) as software, i.created_at as fecha_alta, motivo
+                                    // Consulta SQL para recuperar los datos necesarios
+                                    $sql = "SELECT 
+                                        i.codigo_inventario, 
+                                        p.nombre as personal, 
+                                        d.nombre as dispositivo, 
+                                        e.marca as equipo,  
+                                        s.nombre as software,
+                                        i.created_at as fecha_alta, 
+                                        i.motivo 
                                     FROM inventario i
-                                    INNER JOIN personal p ON i.id_formu = p.id_formu
-                                    INNER JOIN dispositivos d ON i.id_dispositivo = d.id
-                                    INNER JOIN equipos e ON i.id_equipos = e.id
-                                    LEFT JOIN software_inventario si ON i.id = si.inventario_id
-                                    
-                                    LEFT JOIN software s ON si.software_id = s.software_id
-                                    GROUP BY i.id
-                                    ORDER BY i.created_at DESC
-                                    LIMIT $offset, $registros_por_pagina";
+                                    LEFT JOIN personal p ON i.id_formu = p.id
+                                    LEFT JOIN dispositivos d ON i.id_dispositivo = d.id
+                                    LEFT JOIN equipos e ON i.id_equipos = e.id
+                                    LEFT JOIN software s ON i.software_id = s.software_id";  // Asegurándose de que 'software_id' es la columna correcta para unir 'inventario' y 'software'
 
+                                    // Asegúrate de ajustar los nombres de las tablas y los campos según tu base de datos
 
-                                    // Contar el total de registros en la tabla de dispositivos para calcular la cantidad de páginas
-                                    $sql_total_registros = "SELECT COUNT(*) AS total FROM inventario";
-                                    $result_total = $conn->query($sql_total_registros);
-                                    $row_total = $result_total->fetch_assoc();
-                                    $total_registros = $row_total['total'];
-                                    $total_paginas = ceil($total_registros / $registros_por_pagina);
+                                    $result = $conn->query($sql);
+                                    if (!$result) {
+                                        die("Error en la consulta SQL: " . $conn->error);
+                                    }
                                     ?>
 
                                     <table id="example" class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Código de Inventario</th>
-                                                <th>Personal</th>
-                                                <th>Dispositivos</th>
-                                                <th>Equipos</th>
-                                                <th>Software</th>
-                                                <th>Fecha de Alta</th>
-                                                <th>Motivo</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            // Genera las filas de la tabla con los datos obtenidos de la consulta
-                                            while ($row = $result->fetch_assoc()) {
-                                                echo '<tr>';
-                                                echo '<td>' . $row['codigo_inventario'] . '</td>';
-                                                echo '<td>' . $row['personal'] . '</td>';
-                                                echo '<td>' . $row['dispositivo'] . '</td>';
-                                                echo '<td>' . $row['equipo'] . '</td>';
-                                                echo '<td>' . $row['software'] . '</td>';
-                                                echo '<td>' . date('d-m-Y H:i:s', strtotime($row['fecha_alta'])) . '</td>'; // Muestra la fecha formateada
-                                                echo '<td>' . $row['motivo'] . '</td>';
-                                                echo '<td>';
-                                                echo '<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" 
-                                                        data-codigo-inventario="' . $row['codigo_inventario'] . '" data-personal="' . $row['personal'] . '" 
-                                                        data-dispositivo="' . $row['dispositivo'] . '" data-equipo="' . $row['equipo'] . '" 
-                                                        data-software="' . $row['software'] . '">Dar de Baja</button>';
-                                                echo '</td>';
-                                            }
-                                            $conn->close();
-                                            ?>
-
+                                    <thead>
+                                    <tr>
+                                        <th>Código de Inventario</th>
+                                        <th>Personal</th>
+                                        <th>Dispositivos</th>
+                                        <th>Equipos</th>
+                                        <th>Software</th>
+                                        <th>Fecha de Alta</th>
+                                        <th>Motivo</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php while ($row = $result->fetch_assoc()): ?>
+                                    <tr>
+                                        <td><?= $row['codigo_inventario'] ?></td>
+                                        <td><?= $row['personal'] ?></td>
+                                        <td><?= $row['dispositivo'] ?></td>
+                                        <td><?= $row['equipo'] ?></td>
+                                        <td><?= $row['software'] ?></td>
+                                        <td><?= date('d-m-Y H:i:s', strtotime($row['fecha_alta'])) ?></td>
+                                        <td><?= $row['motivo'] ?></td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"
+                                                    data-codigo-inventario="<?= $row['codigo_inventario'] ?>" 
+                                                    data-personal="<?= $row['personal'] ?>" 
+                                                    data-dispositivo="<?= $row['dispositivo'] ?>" 
+                                                    data-equipo="<?= $row['equipo'] ?>" 
+                                                    data-software="<?= $row['software'] ?>">Dar de Baja</button>
+                                        </td>
+                                    </tr>
+                                    <?php endwhile; ?>
+                                    </tbody>
+                                    </table>
+                                    <?php $conn->close(); ?>
                                         </tbody>
                                     </table>
-
-
-                                    <!-- Paginación -->
-                                    <ul class="pagination justify-content-center mt-5">
-                                        <?php if ($pagina_actual > 1): ?>
-                                            <li class="page-item"><a class="page-link" href="?pagina=<?php echo $pagina_actual - 1; ?>">Anterior</a></li>
-                                        <?php endif; ?>
-
-                                        <?php for ($i = 1; $i <= $total_paginas; $i++) : ?>
-                                            <li class="page-item <?php echo ($i == $pagina_actual) ? 'active' : ''; ?>">
-                                                <a class="page-link" href="?pagina=<?php echo $i; ?>"><?php echo $i; ?></a>
-                                            </li>
-                                        <?php endfor; ?>
-
-                                        <?php if ($pagina_actual < $total_paginas): ?>
-                                            <li class="page-item"><a class="page-link" href="?pagina=<?php echo $pagina_actual + 1; ?>">Siguiente</a></li>
-                                        <?php else: ?>
-                                            <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
-                                        <?php endif; ?>
-                                    </ul>
+                                    <!-- Incluir lógica de paginación aquí -->
                                 </div>
+
+
+
                             
 
 
@@ -701,7 +680,7 @@ session_start();
             <footer class="sticky-footer bg-white" style="background-image: url(img/Abstract_background_15.jpg);background-size: 100% 100%; background-attachment: fixed; visibility: visible;">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span><img src="img/logo.png" style="width: 40px; height: 60px;">RecSys &copy; www.sicep.cl</span>
+                        <span style="color: white"><img src="img/recsys.png" style="width: 60px; height: 55px; border-radius: 20px 20px 20px 20px;"><strong style="color: white">  RecSys</strong> &copy; www.sicep.cl</span>
                     </div>
                 </div>
             </footer>

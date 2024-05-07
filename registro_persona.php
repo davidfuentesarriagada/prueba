@@ -16,12 +16,14 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
+
 // Obtener los valores enviados por el formulario
 $rut = isset($_POST['rut']) ? $_POST['rut'] : null;
 $nombre = isset($_POST['nombre']) ? $_POST['nombre'] : null;
 $Movil = isset($_POST['Movil']) ? $_POST['Movil'] : null;
 $direccion = isset($_POST['direccion']) ? $_POST['direccion'] : null;
 $Hijos = isset($_POST['Hijos']) ? $_POST['Hijos'] : 'no';
+$NumeroHijos = 0;  // Inicializa el número de hijos con 0 por defecto.
 $Profesion = isset($_POST['Profesion']) ? $_POST['Profesion'] : null;
 $flaboral = isset($_POST['flaboral']) ? $_POST['flaboral'] : null;
 $Id_AreaTrabajo = isset($_POST['Id_AreaTrabajo']) ? $_POST['Id_AreaTrabajo'] : null;
@@ -32,21 +34,18 @@ echo "ID recibido: " . $id_formu . "<br>";
 // ...
 
 if ($Hijos === 'si') {
-    // Si el usuario tiene hijos, deja cuantos como está
-} else {
-    // Si el usuario no tiene hijos, asigna 'no' a $Hijos
-    $Hijos = 'no';
+    // Si el usuario tiene hijos, obtiene la cantidad de la entrada del formulario
+    $NumeroHijos = isset($_POST['cuantos']) ? (int)$_POST['cuantos'] : 0;
 }
-
 // Preparar la consulta SQL para insertar los datos en la tabla "personal"
-$sql = "INSERT INTO personal (rut, nombre, Hijos, Movil, direccion, cargo_p, flaboral, Id_AreaTrabajo, Profesion, Prevision, Enfermedad, Medicamento, Nombre_Emg, Cto_Emg, a_medicamento, alergia, grupo_sanguineo)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO personal (rut, nombre, Hijos, NumeroHijos, Movil, direccion, cargo_p, flaboral, Id_AreaTrabajo, Profesion, Prevision, Enfermedad, Medicamento, Nombre_Emg, Cto_Emg, a_medicamento, alergia, grupo_sanguineo)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 // Preparar la consulta
 $stmt = $conn->prepare($sql);
 
 // Vincular los valores
-$stmt->bind_param("sssssssssssssssss", $rut, $nombre, $Hijos, $Movil, $direccion, $cargo_p, $flaboral, $Id_AreaTrabajo, $Profesion, $Prevision, $Enfermedad, $Medicamento, $Nombre_Emg, $Cto_Emg, $a_medicamento, $alergia, $grupo_sanguineo);
+$stmt->bind_param("ssssssssssssssssss", $rut, $nombre, $Hijos, $NumeroHijos, $Movil, $direccion, $cargo_p, $flaboral, $Id_AreaTrabajo, $Profesion, $Prevision, $Enfermedad, $Medicamento, $Nombre_Emg, $Cto_Emg, $a_medicamento, $alergia, $grupo_sanguineo);
 
 
 // Ejecutar la consulta

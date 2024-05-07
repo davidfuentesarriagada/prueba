@@ -15,7 +15,7 @@ $id_formu = isset($_POST['id_formu']) ? $_POST['id_formu'] : null;
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="icon" type="image/png" href="img/recsys.png">
 
     <title>RecSys</title>
 
@@ -41,7 +41,7 @@ $id_formu = isset($_POST['id_formu']) ? $_POST['id_formu'] : null;
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
             <div class="sidebar-brand-icon "><br>
-                <img class="mt-4" src="img/logo.png" height="120PX" width="130px">
+                <img class="mt-4" src="img/recsys.png" height="100PX" width="110px" style="border-radius: 20px 20px 20px 20px;">
             </div>
             <div class="sidebar-brand-text mx-3"><sup></sup></div>
         </a><br>
@@ -346,8 +346,8 @@ $id_formu = isset($_POST['id_formu']) ? $_POST['id_formu'] : null;
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <img src="img/aia.png" class="img-fluid" alt="Imagen 2" style="width: 130px; height: 55px;">
+                            <a class="nav-link" href="https://www.aia.cl" target="_blank">
+                                <img src="https://www.pruebadyc.cl/AIA.png" class="img-fluid" alt="Imagen 2" style="width: 110px; height: 65px;">
                             </a>
                         </li>
                         <li class="nav-item">
@@ -394,8 +394,23 @@ $id_formu = isset($_POST['id_formu']) ? $_POST['id_formu'] : null;
                                     
                                         <div class="form-group">
                                             <label for="Cto_Emg">Contacto de Emergencia:</label>
-                                            <input type="text" class="form-control" id="Cto_Emg" name="Cto_Emg" required placeholder="Ingrese Contacto ante una Emergencia..">
+                                            <input type="text" class="form-control" id="Cto_Emg" name="Cto_Emg" required placeholder="Ingrese Contacto ante una Emergencia.." maxlength="12">
+                                            <span id="emergency-contact-error-message" class="text-danger"></span> <!-- Elemento para mostrar el mensaje de error -->
                                         </div>
+                                        <script>
+                                            document.getElementById("Cto_Emg").addEventListener("blur", function() {
+                                                var contact = this.value;
+                                                // Verificación de formato de número telefónico
+                                                // Permite números que empiezan con + seguido por dígitos, con o sin guiones (e.g., +56-912345678, +56912345678)
+                                                if (!/^(\+\d{1,3}-?)?(\d{3,10})$/.test(contact)) {
+                                                    document.getElementById("emergency-contact-error-message").textContent = "Formato de número móvil inválido. Debe ser como +56912345678 o 912345678.";
+                                                    document.getElementById("Cto_Emg").value = ""; // Limpiar el campo si el formato no es correcto
+                                                } else {
+                                                    document.getElementById("emergency-contact-error-message").textContent = ""; // Limpiar el mensaje de error si el formato es correcto
+                                                }
+                                            });
+                                        </script>
+
                                     
                                         <div class="form-group">
                                             <label for="Enfermedad">Enfermedad:</label>
@@ -406,9 +421,20 @@ $id_formu = isset($_POST['id_formu']) ? $_POST['id_formu'] : null;
                                 
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="grupo">Grupo Sanguineo:</label>
-                                            <input type="text" class="form-control" id="grupo" name="grupo" placeholder="Ingrese su grupo +">
+                                            <label for="grupo">Grupo Sanguíneo:</label>
+                                            <select class="form-control" id="grupo" name="grupo" required>
+                                                <option value="">Seleccione su grupo sanguíneo</option>
+                                                <option value="A+">A+</option>
+                                                <option value="A-">A-</option>
+                                                <option value="B+">B+</option>
+                                                <option value="B-">B-</option>
+                                                <option value="AB+">AB+</option>
+                                                <option value="AB-">AB-</option>
+                                                <option value="O+">O+</option>
+                                                <option value="O-">O-</option>
+                                            </select>
                                         </div>
+
                                     
                                         <div class="form-group">
                                             <label for="Prevision">Previsión:</label>
@@ -439,7 +465,7 @@ $id_formu = isset($_POST['id_formu']) ? $_POST['id_formu'] : null;
                                   
                                         <div class="form-group">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="a_medicamentoNo" name="a_medicamento" value="no">
+                                                <input class="form-check-input" type="radio" id="a_medicamentoNo" name="a_medicamento" value="no">
                                                 <label class="form-check-label" for="a_medicamentoNo">No</label>
                                             </div>
                                         </div>
@@ -515,7 +541,7 @@ $id_formu = isset($_POST['id_formu']) ? $_POST['id_formu'] : null;
             <footer class="sticky-footer bg-white" style="background-image: url(img/Abstract_background_15.jpg);background-size: 100% 100%; background-attachment: fixed; visibility: visible;">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span><img src="img/logo.png" style="width: 40px; height: 60px;">RecSys &copy; www.sicep.cl</span>
+                    <span style="color: white"><img src="img/recsys.png" style="width: 60px; height: 55px; border-radius: 20px 20px 20px 20px;"><strong style="color: white">  RecSys</strong> &copy; www.sicep.cl</span>
                     </div>
                 </div>
             </footer>

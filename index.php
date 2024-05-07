@@ -13,7 +13,7 @@ include 'functions.php';
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="icon" type="image/png" href="img/recsys.png" style="border-radius: 20px 20px 20px 20px;">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
 
@@ -70,7 +70,7 @@ include 'functions.php';
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
                 <div class="sidebar-brand-icon "><br>
-                    <img class="mt-4" src="img/logo.png" height="120PX" width="130px">
+                    <img class="mt-4" src="img/recsys.png" height="100PX" width="110px" style="border-radius: 20px 20px 20px 20px;">
                 </div>
                 <div class="sidebar-brand-text mx-3"><sup></sup></div>
             </a><br>
@@ -355,7 +355,7 @@ include 'functions.php';
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="https://www.aia.cl" target="_blank">
-                                <img src="img/aia.png" class="img-fluid" alt="Imagen 2" style="width: 130px; height: 55px;">
+                                <img src="https://www.pruebadyc.cl/AIA.png" class="img-fluid" alt="Imagen 2" style="width: 110px; height: 65px;">
                             </a>
                         </li>
                         <li class="nav-item">
@@ -595,7 +595,7 @@ include 'functions.php';
             <footer class="sticky-footer bg-white" style="background-image: url(img/Abstract_background_15.jpg);background-size: 100% 100%; background-attachment: fixed; visibility: visible;">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span><img src="img/logo.png" style="width: 40px; height: 60px;"><strong>RecSys</strong> &copy; www.sicep.cl</span>
+                        <span style="color: white"><img src="img/recsys.png" style="width: 60px; height: 55px; border-radius: 20px 20px 20px 20px;"><strong style="color: white">  RecSys</strong> &copy; www.sicep.cl</span>
                     </div>
                 </div>
             </footer>

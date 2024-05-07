@@ -14,7 +14,7 @@ $id_formu = isset($_POST['id_formu']) ? $_POST['id_formu'] : null;
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="icon" type="image/png" href="img/recsys.png">
 
     <title>RecSys</title>
 
@@ -27,6 +27,8 @@ $id_formu = isset($_POST['id_formu']) ? $_POST['id_formu'] : null;
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/144e03a4af.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 
 </head>
 
@@ -40,7 +42,7 @@ $id_formu = isset($_POST['id_formu']) ? $_POST['id_formu'] : null;
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
             <div class="sidebar-brand-icon "><br>
-                <img class="mt-4" src="img/logo.png" height="120PX" width="130px">
+                <img class="mt-4" src="img/recsys.png" height="100PX" width="110px" style="border-radius: 20px 20px 20px 20px;">
             </div>
             <div class="sidebar-brand-text mx-3"><sup></sup></div>
         </a><br>
@@ -345,8 +347,8 @@ $id_formu = isset($_POST['id_formu']) ? $_POST['id_formu'] : null;
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <img src="img/aia.png" class="img-fluid" alt="Imagen 2" style="width: 130px; height: 55px;">
+                            <a class="nav-link" href="https://www.aia.cl" target="_blank">
+                                <img src="https://www.pruebadyc.cl/AIA.png" class="img-fluid" alt="Imagen 2" style="width: 110px; height: 65px;">
                             </a>
                         </li>
                         <li class="nav-item">
@@ -390,13 +392,40 @@ $id_formu = isset($_POST['id_formu']) ? $_POST['id_formu'] : null;
                                         <div class="col-md-4">
                                             <!-- Información personal -->
                                             <div class="form-group">
-                                                <label for="rut">Rut:</label>
-                                                <input type="text" class="form-control" id="rut" name="rut" placeholder="Ingrese Su Rut...">
-                                            </div>
+                                            <label for="rut">Rut:</label>
+                                            <input type="text" class="form-control" id="rut" name="rut" placeholder="12345678-9" maxlength="10" required>
+                                            <span id="rut-error-message" class="text-danger"></span> <!-- Elemento para mostrar el mensaje de error -->
+                                        </div>
+                                        <script>
+                                            document.getElementById("rut").addEventListener("blur", function() {
+                                                var rut = this.value;
+                                                var xhr = new XMLHttpRequest();
+                                                 // Verificación de formato extendido que incluye letra 'k' o 'K'
+                                                 if (!/^\d{7,8}-[0-9kK]$/.test(rut)) {
+                                                    document.getElementById("rut-error-message").textContent = "Formato de RUT inválido. Debe ser como 12345678-9 o 12345678-K y no exceder los 10 caracteres.";
+                                                    document.getElementById("rut").value = ""; // Limpiar el campo si el formato no es correcto
+                                                    return; // Detener la función si el formato no es correcto
+                                                }
+                                                xhr.open("POST", "verificar_rut.php", true);
+                                                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                                xhr.onreadystatechange = function() {
+                                                    if (xhr.readyState == 4 && xhr.status == 200) {
+                                                        if (xhr.responseText == "existe") {
+                                                            document.getElementById("rut-error-message").textContent = "El RUT ya existe";
+                                                            document.getElementById("rut").value = ""; // Limpiar el campo
+                                                        } else {
+                                                            document.getElementById("rut-error-message").textContent = ""; // Limpiar el mensaje de error
+                                                        }
+                                                    }
+                                                };
+                                                xhr.send("rut=" + rut);
+                                            });
+                                        </script>
+
 
                                             <div class="form-group">
                                                 <label for="nombre">Nombre:</label>
-                                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre Completo....">
+                                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre Completo...." maxlength="50" required>
                                             </div>
 
 
@@ -407,18 +436,49 @@ $id_formu = isset($_POST['id_formu']) ? $_POST['id_formu'] : null;
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="flaboral">Telefono Laboral:</label>
-                                                <input type="text" class="form-control" id="flaboral" name="flaboral" required placeholder="Ingrese Fono laboral">
+                                                <label for="flaboral">Teléfono Laboral:</label>
+                                                <input type="text" class="form-control" id="flaboral" name="flaboral" required placeholder="Ingrese Fono laboral" maxlength="12">
+                                                <span id="phone-error-message" class="text-danger" style="display: none;">Formato de teléfono inválido.</span>
                                             </div>
+                                            <script>
+                                                document.getElementById('flaboral').addEventListener('blur', function() {
+                                                    var phone = this.value;
+                                                    // Verificación de formato de número telefónico
+                                                    // Permite números que empiezan con + seguido por dígitos, con o sin guiones (e.g., +56-912345678, +56912345678)
+                                                    if (!/^(\+\d{1,3}-?)?(\d{3,10})$/.test(phone)) {
+                                                        document.getElementById('phone-error-message').textContent = "Formato de teléfono inválido. Debe ser como +56912345678 o 912345678.";
+                                                        document.getElementById('phone-error-message').style.display = 'block';
+                                                    } else {
+                                                        document.getElementById('phone-error-message').style.display = 'none';
+                                                    }
+                                                });
+                                            </script>
+
                                         </div>
 
                                         <!-- Segunda columna -->
                                         <div class="col-md-4">
                                             <!-- Información personal -->
                                             <div class="form-group">
-                                                <label for="Movil">Móvil:</label>
-                                                <input type="text" class="form-control" id="Movil" name="Movil" placeholder="Ingrese Fono Particular">
-                                            </div>
+                                            <label for="Movil">Móvil:</label>
+                                            <input type="text" class="form-control" id="Movil" name="Movil" placeholder="Ingrese Fono Particular" maxlength="12">
+                                            <span id="mobile-error-message" class="text-danger"></span> <!-- Elemento para mostrar el mensaje de error -->
+                                        </div>
+                                        <script>
+                                            document.getElementById("Movil").addEventListener("blur", function() {
+                                                var mobile = this.value;
+                                                // Verificación de formato de número telefónico
+                                                // Permite números que empiezan con + seguido por dígitos, con o sin guiones (e.g., +56-912345678, +56912345678)
+                                                if (!/^(\+\d{1,3}-?)?(\d{3,10})$/.test(mobile)) {
+                                                    document.getElementById("mobile-error-message").textContent = "Formato de número móvil inválido. Debe ser como +56912345678 o 912345678.";
+                                                    document.getElementById("Movil").value = ""; // Limpiar el campo si el formato no es correcto
+                                                    return; // Detener la función si el formato no es correcto
+                                                } else {
+                                                    document.getElementById("mobile-error-message").textContent = ""; // Limpiar el mensaje de error si el formato es correcto
+                                                }
+                                            });
+                                        </script>
+
 
                                             <div class="form-group">
                                                 <label for="direccion">Dirección Particular:</label>
@@ -494,7 +554,19 @@ $id_formu = isset($_POST['id_formu']) ? $_POST['id_formu'] : null;
                                                 document.getElementById('hijos_si').addEventListener('change', function() {
                                                     var cuantosDiv = document.getElementById('cuantos-div');
                                                     cuantosDiv.style.display = this.checked ? 'block' : 'none';
+                                                    if (!this.checked) {
+                                                        document.getElementById('cuantos_input').value = ''; // Opcional: limpiar el valor
+                                                    }
                                                 });
+
+                                                document.getElementById('hijos_no').addEventListener('change', function() {
+                                                    var cuantosDiv = document.getElementById('cuantos-div');
+                                                    if (this.checked) {
+                                                        cuantosDiv.style.display = 'none';
+                                                        document.getElementById('cuantos_input').value = ''; // Limpiar el valor
+                                                    }
+                                                });
+
                                             </script><br>
 
                                             <!-- Campo oculto para el ID -->
@@ -556,7 +628,7 @@ $id_formu = isset($_POST['id_formu']) ? $_POST['id_formu'] : null;
             <footer class="sticky-footer bg-white" style="background-image: url(img/Abstract_background_15.jpg);background-size: 100% 100%; background-attachment: fixed; visibility: visible;">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span><img src="img/logo.png" style="width: 40px; height: 60px;">RecSys &copy; www.sicep.cl</span>
+                        <span style="color: white"><img src="img/recsys.png" style="width: 60px; height: 55px; border-radius: 20px 20px 20px 20px;"><strong style="color: white">  RecSys</strong> &copy; www.sicep.cl</span>
                     </div>
                 </div>
             </footer>
@@ -606,6 +678,16 @@ $id_formu = isset($_POST['id_formu']) ? $_POST['id_formu'] : null;
         var popover = new bootstrap.Popover(document.querySelector('.popover-dismiss'), {
             trigger: 'focus'
         })
+    </script>
+    <script>
+        document.getElementById("rut").oninput = function() {
+            var rutPattern = /^\d{0,8}(-[\dkK]{0,1})?$/; // Permite escribir hasta 8 dígitos y opcionalmente el guión y el dígito verificador que puede ser un número o 'k' o 'K'
+            
+            if (!rutPattern.test(this.value)) {
+                this.value = this.value.slice(0, -1); // Eliminar el último caracter no válido
+            }
+        };
+
     </script>
 
 </body>

@@ -8,7 +8,17 @@ if ($id_formu !== null) {
     $Nombre_Emg = isset($_POST['Nombre_Emg']) ? $_POST['Nombre_Emg'] : null;
     $Cto_Emg = isset($_POST['Cto_Emg']) ? $_POST['Cto_Emg'] : null;
     $Enfermedad = isset($_POST['Enfermedad']) ? $_POST['Enfermedad'] : null;
-    $grupo_sanguineo = isset($_POST['grupo']) ? $_POST['grupo'] : null;
+    if (isset($_POST['grupo'])) {
+        $grupo = $_POST['grupo'];
+        $validBloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+        if (!in_array($grupo, $validBloodTypes)) {
+            // Manejar el error
+            echo "Grupo sanguíneo no válido.";
+            $grupo = null;  // Asegúrate de que no se guarda un valor inválido.
+        }
+        // No necesitas un else aquí, simplemente asegúrate de que $grupo tiene el valor correcto o es null.
+    }
+    
     $Prevision = isset($_POST['Prevision']) ? $_POST['Prevision'] : null;
     $Medicamento = isset($_POST['Medicamento']) ? $_POST['Medicamento'] : null;
     $a_medicamento = isset($_POST['a_medicamento']) ? $_POST['a_medicamento'] : 'no';
@@ -19,7 +29,7 @@ if ($id_formu !== null) {
     echo "Nombre_Emg: " . $Nombre_Emg . "<br>";
     echo "Cto_Emg: " . $Cto_Emg . "<br>";
     echo "Enfermedad: " . $Enfermedad . "<br>";
-    echo "Grupo Sanguíneo: " . $grupo_sanguineo . "<br>";
+    echo "Grupo Sanguíneo: " . ($grupo ? $grupo : "No especificado") . "<br>"; // Utiliza la variable $grupo directamente.
     echo "Previsión: " . $Prevision . "<br>";
     echo "Medicamento: " . $Medicamento . "<br>";
     echo "Alergico a medicamento: " . $a_medicamento . "<br>";
@@ -46,11 +56,12 @@ if ($id_formu !== null) {
     // Actualizar la fila con la información adicional en la tabla "personal"
     $sql = "UPDATE personal SET Nombre_Emg=?, Cto_Emg=?, Enfermedad=?, grupo_sanguineo=?, Prevision=?, Medicamento=?, a_medicamento=?, alergia=? WHERE id_formu=?";
 
+
     // Preparar la consulta
     $stmt = $conn->prepare($sql);
 
     // Vincular los valores
-    $stmt->bind_param("ssssssssi", $Nombre_Emg, $Cto_Emg, $Enfermedad, $grupo_sanguineo, $Prevision, $Medicamento, $a_medicamento, $cual_a_medicamento, $id_formu);
+    $stmt->bind_param("ssssssssi", $Nombre_Emg, $Cto_Emg, $Enfermedad, $grupo, $Prevision, $Medicamento, $a_medicamento, $cual_a_medicamento, $id_formu);
 
     // Ejecutar la consulta
     if ($stmt->execute()) {

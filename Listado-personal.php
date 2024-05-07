@@ -15,7 +15,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="icon" type="image/png" href="img/recsys.png">
 
     <title>RecSys</title>
 
@@ -35,7 +35,9 @@ session_start();
     <link rel="stylesheet"  type="text/css" href="datatables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">
            
     <!--font awesome con CDN-->  
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">  
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  
 
 </head>
 
@@ -49,7 +51,7 @@ session_start();
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
             <div class="sidebar-brand-icon "><br>
-                <img class="mt-4" src="img/logo.png" height="120PX" width="130px">
+                <img class="mt-4" src="img/recsys.png" height="100PX" width="110px" style="border-radius: 20px 20px 20px 20px;">
             </div>
             <div class="sidebar-brand-text mx-3"><sup></sup></div>
         </a><br>
@@ -431,8 +433,8 @@ session_start();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <img src="img/aia.png" class="img-fluid" alt="Imagen 2" style="width: 130px; height: 55px;">
+                            <a class="nav-link" href="https://www.aia.cl" target="_blank">
+                                <img src="https://www.pruebadyc.cl/AIA.png" class="img-fluid" alt="Imagen 2" style="width: 110px; height: 65px;">
                             </a>
                         </li>
                         <li class="nav-item">
@@ -494,7 +496,7 @@ session_start();
                                     $offset = ($pagina_actual - 1) * $registros_por_pagina;
 
                                     // Consulta SQL para obtener los datos desde la tabla de dispositivos con paginación
-                                    $sql = "SELECT id_formu, rut, nombre, Hijos, Movil, direccion FROM personal LIMIT $offset, $registros_por_pagina";
+                                    $sql = "SELECT id_formu, rut, nombre, Hijos, NumeroHijos, Movil, direccion FROM personal LIMIT $offset, $registros_por_pagina";
                                     $result = $conn->query($sql);
 
                                     // Contar el total de registros en la tabla de dispositivos para calcular la cantidad de páginas
@@ -508,21 +510,22 @@ session_start();
                                     // Genera las filas de la tabla con los datos obtenidos de la consulta
                                     ?>
                                     <h2>Tabla de Datos Registrados Personales.</h2>
-                                    <table id="example" class="table-responsive table table-striped table-striped" width="200%">
+                                    <table id="example" class="table-responsive table table-striped table-striped" width="200%" >
                                         <thead>
-                                            <tr>
-                                                <th>RUT</th>
-                                                <th>Nombre</th>
-                                                <th>¿Hijos?</th>
-                                                <th>Móvil</th>
-                                                <th>Dirección</th>
+                                            <tr style="background-color: grey;">
+                                                <th style="color: white;">RUT</th>
+                                                <th style="color: white;">Nombre</th>
+                                                <th style="color: white;">¿Hijos?</th>
+                                                <th style="color: white;">Numero de Hijos</th>
+                                                <th style="color: white;">Móvil</th>
+                                                <th style="color: white;">Dirección</th>
                                                 
 
                                                 <?php
                                                 if (isset($_SESSION['rol'])) {
                                                     // Si el usuario ha iniciado sesión, mostrar las opciones según su rol
                                                     if ($_SESSION['rol'] === 'admin' || $_SESSION['rol'] === 'ejecutivo' || $_SESSION['rol'] === 'general') {
-                                                        echo '<th>Acciones</th>'; // Nueva columna para el botón de eliminar
+                                                        echo '<th style="color: white;">Acciones</th>'; // Nueva columna para el botón de eliminar
                                                     } elseif ($_SESSION['rol'] === 'visualizador') {
                                                         // Mostrar opciones para visualizador
                                                     }
@@ -557,14 +560,19 @@ session_start();
                                                 echo "<td>" . $row['rut'] . "</td>";
                                                 echo "<td>" . $row['nombre'] . "</td>";
                                                 echo "<td>" . $row['Hijos'] . "</td>";
+                                                echo "<td>" . $row['NumeroHijos'] . "</td>";
                                                 echo "<td>" . $row['Movil'] . "</td>";
                                                 echo "<td>" . $row['direccion'] . "</td>";
                                                 
-                                                // Verificar si el usuario tiene el rol de administrador para mostrar el botón de eliminar
-                                                if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin'|| $_SESSION['rol'] === 'ejecutivo'|| $_SESSION['rol'] === 'general') {
-                                                    echo '<td><button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila(' . $row['id_formu'] . ', this)">Eliminar</button></td>';
+                                                // Verificar si el usuario tiene uno de los roles especificados para mostrar los botones
+                                                if (isset($_SESSION['rol']) && ($_SESSION['rol'] === 'admin' || $_SESSION['rol'] === 'ejecutivo' || $_SESSION['rol'] === 'general')) {
+                                                    echo '<td>';
+                                                    //echo '<button type="button" class="btn btn-primary btn-sm" onclick="editarFila(' . $row['id_formu'] . ')">Editar</button> ';
+                                                    echo '<button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila(' . $row['id_formu'] . ', this)">Eliminar</button>';
+                                                    echo '</td>';
                                                 }
                                                 echo "</tr>";
+
                                             }
                                             
                                             $conn->close();
@@ -589,6 +597,8 @@ session_start();
                                             <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
                                         <?php endif; ?>
                                     </ul>
+
+                                    
                                     <script>
                                         // Función para eliminar la fila de la tabla y el registro de la base de datos
                                         function eliminarFila(id_formu, btn) {
@@ -611,6 +621,11 @@ session_start();
                                                 }
                                             });
                                         }
+                                        
+
+
+
+
                                     </script>
                                 </div>
                             </div>
@@ -628,7 +643,8 @@ session_start();
                 <footer class="sticky-footer bg-white" style="background-image: url(img/Abstract_background_15.jpg);background-size: 100% 100%; background-attachment: fixed; visibility: visible;">
                     <div class="container my-auto">
                         <div class="copyright text-center my-auto">
-                            <span><img src="img/logo.png" style="width: 40px; height: 60px;">RecSys &copy; www.sicep.cl</span>
+                            <span style="color: white"><img src="img/recsys.png" style="width: 60px; height: 55px; border-radius: 20px 20px 20px 20px;"><strong style="color: white">  RecSys</strong> &copy; www.sicep.cl</span>
+                        </div>
                         </div>
                     </div>
                 </footer>

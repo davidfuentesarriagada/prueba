@@ -14,7 +14,7 @@ session_start();
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="icon" type="image/png" href="img/recsys.png">
 
     <title>RecSys</title>
 
@@ -41,7 +41,7 @@ session_start();
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
             <div class="sidebar-brand-icon "><br>
-                <img class="mt-4" src="img/logo.png" height="120PX" width="130px">
+                <img class="mt-4" src="img/recsys.png" height="100PX" width="110px" style="border-radius: 20px 20px 20px 20px;">
             </div>
             <div class="sidebar-brand-text mx-3"><sup></sup></div>
         </a><br>
@@ -330,8 +330,8 @@ session_start();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <img src="img/aia.png" class="img-fluid" alt="Imagen 2" style="width: 130px; height: 55px;">
+                            <a class="nav-link" href="https://www.aia.cl" target="_blank">
+                                <img src="https://www.pruebadyc.cl/AIA.png" class="img-fluid" alt="Imagen 2" style="width: 110px; height: 65px;">
                             </a>
                         </li>
                         <li class="nav-item">
@@ -349,7 +349,7 @@ session_start();
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
-                        /<?php// include 'navbar.php'; ?>
+                        <?php include 'navbar.php'; ?>
 
                     </ul>
 
@@ -374,7 +374,7 @@ session_start();
                                     <form action="insert.php" method="POST" class="row g-3">
                                         <div class="col-md-4">
                                             <label for="nombre" class="form-label">Nombre:</label>
-                                            <input type="text" class="form-control" name="nombre" required>
+                                            <input type="text" class="form-control" name="nombre" placeholder="Nombre del encargado" required>
                                         </div>
 
                                         <div class="col-md-4">
@@ -408,14 +408,16 @@ session_start();
 
                                         <div class="col-md-4">
                                             <label for="Email" class="form-label">Email:</label>
-                                            <input type="email" class="form-control" name="Email" required>
+                                            <input type="email" class="form-control" name="Email" placeholder="nn@nn.cl" required>
                                         </div>
 
                                         <div class="col-12">
                                             <button type="submit" class="btn btn-primary">Agregar Jefatura</button>
                                         </div>
                                     </form>
-                                </div>
+                                </div><br>
+                                <br>
+                                <br>
 
                             </div><BR>
                         </div>
@@ -447,7 +449,7 @@ session_start();
                 <footer class="sticky-footer bg-white" style="background-image: url(img/Abstract_background_15.jpg);background-size: 100% 100%; background-attachment: fixed; visibility: visible;">
                     <div class="container my-auto">
                         <div class="copyright text-center my-auto">
-                            <span><img src="img/logo.png" style="width: 40px; height: 60px;">RecSys &copy; www.sicep.cl</span>
+                            <span style="color: white"><img src="img/recsys.png" style="width: 60px; height: 55px; border-radius: 20px 20px 20px 20px;"><strong style="color: white">  RecSys</strong> &copy; www.sicep.cl</span>
                         </div>
                     </div>
                 </footer>
